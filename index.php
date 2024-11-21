@@ -2,17 +2,13 @@
 include("config.php");
 include("reactions.php");
 
-$getReactions = Reactions::getReactions();
-//uncomment de volgende regel om te kijken hoe de array van je reactions eruit ziet
-// echo "<pre>".var_dump($getReactions)."</pre>";
-
 if(!empty($_POST)){
 
     //dit is een voorbeeld array.  Deze waardes moeten erin staan.
     $postArray = [
-        'name' => "Ieniminie",
-        'email' => "ieniminie@sesamstraat.nl",
-        'message' => "Geweldig dit"
+        'name' => $_POST['name'],
+        'email' => $_POST['email'],
+        'message' => $_POST['message'],
     ];
 
     $setReaction = Reactions::setReaction($postArray);
@@ -20,9 +16,13 @@ if(!empty($_POST)){
     if(isset($setReaction['error']) && $setReaction['error'] != ''){
         prettyDump($setReaction['error']);
     }
-    
+   
 
 }
+
+$getReactions = Reactions::getReactions();
+//uncomment de volgende regel om te kijken hoe de array van je reactions eruit ziet
+// echo "<pre>".var_dump($getReactions)."</pre>";
 
 ?>
 <!DOCTYPE html>
@@ -37,6 +37,27 @@ if(!empty($_POST)){
 
     <h2>Hieronder komen reacties</h2>
     <p>Maak hier je eigen pagina van aan de hand van de opdracht</p>
+
+    <form action="" method="post">
+        <input type="text" name="name" placeholder="name"><br>
+        <input type="email" name="email" placeholder="email"><br>
+        <textarea name="message" placeholder="message"></textarea><br>
+        <input type="submit" value="Send">
+    </form>
+
+        <?php
+        if(!empty($getReactions)){
+            foreach($getReactions as $reaction){
+                echo "<h3>{$reaction['name']}</h3>";
+                echo "<p>{$reaction['email']}</p>";
+                echo "<p>{$reaction['message']}</p>";
+                echo "<p>{$reaction['date_added']}</p>";
+                echo "<hr>";
+            }
+        }
+        ?>
+
+
 </body>
 </html>
 
