@@ -2,7 +2,7 @@
 include("config.php");
 include("reactions.php");
 
-if(!empty($_POST)){
+if (!empty($_POST)) {
 
     //dit is een voorbeeld array.  Deze waardes moeten erin staan.
     $postArray = [
@@ -13,11 +13,9 @@ if(!empty($_POST)){
 
     $setReaction = Reactions::setReaction($postArray);
 
-    if(isset($setReaction['error']) && $setReaction['error'] != ''){
+    if (isset($setReaction['error']) && $setReaction['error'] != '') {
         prettyDump($setReaction['error']);
     }
-   
-
 }
 
 $getReactions = Reactions::getReactions();
@@ -27,12 +25,14 @@ $getReactions = Reactions::getReactions();
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="assets/css/style.css">
     <title>Youtube remake</title>
 </head>
+
 <body>
     <iframe width="560" height="315" src="https://www.youtube.com/embed/dQw4w9WgXcQ?si=twI61ZGDECBr4ums" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
@@ -46,20 +46,38 @@ $getReactions = Reactions::getReactions();
         <input type="submit" value="Send">
     </form>
 
-        <?php
-        if(!empty($getReactions)){
-            foreach($getReactions as $reaction){
-                echo "<h3>{$reaction['name']}</h3>";
-                echo "<p>{$reaction['email']}</p>";
-                echo "<p>{$reaction['message']}</p>";
-                echo "<p>{$reaction['date_added']}</p>";
-                echo "<hr>";
-            }
+    <?php
+    if (!empty($getReactions)) {
+        foreach ($getReactions as $reaction) {
+            // echo "<h3>".$reaction['name']."</h3>"; 
+            // dit met curly brackets is handigere schrijfwijze van bovenstaand: hoef je niet te concatenaten. 
+            echo "<h3>{$reaction['name']}</h3>";
+            echo "<p>{$reaction['email']}</p>";
+            echo "<p>{$reaction['message']}</p>";
+            echo "<p>{$reaction['date_added']}</p>";
+            echo "<hr>";
+
+            // Nog leesbaarder is om uit PHP modus te gaan en HTML te schrijven.
+            // voorbeeld hieronder:
+            ?>
+            <!--
+            <h3><?= $reaction['name'] ?></h3>
+            <p><?= $reaction['email'] ?></p>
+            <p><?= $reaction['message'] ?></p>
+            <p><?= $reaction['date_added'] ?></p>
+            <hr>
+            -->
+            <?php
+
+
+
         }
-        ?>
+    }
+    ?>
 
 
 </body>
+
 </html>
 
 <?php
